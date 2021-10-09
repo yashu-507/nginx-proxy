@@ -40,17 +40,8 @@ jobs:
       - name: Build Docker web server image
         run: make build-webserver
 
-      - name: Build Docker nginx proxy test image
-        run: make build-nginx-proxy-test-${{ matrix.base_docker_image }}
-        if: |
-          ( github.event_name == 'push' && github.ref != 'refs/heads/dev-rebase' ) ||
-          ( github.event_name == 'pull_request' && github.base_ref != 'dev-rebase' )
-
       - name: Build Docker nginx proxy dev test image
         run: make build-nginx-proxy-test-${{ matrix.base_docker_image }}-dev
-        if: |
-          ( github.event_name == 'push' && github.ref == 'refs/heads/dev-rebase' ) ||
-          ( github.event_name == 'pull_request' && github.base_ref == 'dev-rebase' )
 
       - name: Run tests
         run: pytest
